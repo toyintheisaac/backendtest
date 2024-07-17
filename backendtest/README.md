@@ -2,43 +2,47 @@
  
 
 ## Maker-Checker System with Wallet Management
-
 This project is a complete solution for a technical test on the Maker-Checker system with a wallet management system. The project uses Laravel Breeze for authentication, Bootstrap for the frontend with a minimalistic design, and PHPUnit for testing.
 
 ### Features
 
-- **Authentication:** Implemented using Laravel Breeze.
-- **Frontend:** Designed with Bootstrap for a simple and responsive UI.
-- **Testing:** Thoroughly tested using PHPUnit.
+- **Authentication:**
+    - Implemented using Laravel Breeze.
+- **Frontend:**
+    - Designed with Bootstrap for a simple and responsive UI.
+- **Testing:**
+    - Thoroughly tested using PHPUnit.
 
 ### Setup Instructions
 #### Database Setup
 
 1 **Create Databases:**
-- **Main Database:** backendtest_db     
-- **Testing Database:** test_backendtest_db
+- **Main Database:**
+    - backendtest_db
+- **Testing Database:**
+    - test_backendtest_db
 
 #### Project Setup
 
 - **Pull from the repo:** 
-    git pull
-- **Navigate to Project Directory:**
-    cd backendtest   
+    - git pull   
 - **Checkout to my Branch:** 
-    git checkout isaac-toyin   
+    - git checkout isaac-toyin  
+- **Navigate to Project Directory:**
+    - cd backendtest 
 - **Copy Environment File:** 
-    cp .env.example .env     
+    - cp .env.example .env     
 - **Configure Mail Server:**      
-    Update the .env file with your mail server settings.
+    - Update the .env file with your mail server settings.
 - **Run Migrations and Seed Database:**      
-    php artisan migrate --seed
+    - php artisan migrate --seed
  
 
 ### Running Tests
 - **Update Testing Environment File**      
-    Edit the .env.testing file with the testing database name (test_backendtest_db).
+    - Edit the .env.testing file with the testing database name (test_backendtest_db).
 - **Run Tests:**      
-    php artisan test --env=testing
+    - php artisan test --env=testing
  
 
 ## License
