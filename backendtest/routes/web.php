@@ -23,7 +23,6 @@ Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('notification/read/{id}', [NotificationController::class, 'update'])->name('notification.read');
     Route::get('logs', [LogsController::class, 'index'])->name('users.logs');
 
-
 });
 
 require __DIR__.'/auth.php';
