@@ -19,6 +19,21 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
+            @if(session()->has('successMessage'))
+            <div class="container my-2"> 
+                <div class="alert alert-success">
+                  <strong>Success!</strong> {{ session()->get('successMessage') }}
+                </div>
+            </div>
+            @endif
+            @if(session()->has('errorMessage'))
+            <div class="container my-2"> 
+                <div class="alert alert-danger">
+                  <strong>Error!</strong> {{ session()->get('errorMessage') }}
+                </div>
+            </div>
+            @endif
+            
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white">
@@ -35,4 +50,16 @@
         </div>
     </body>
     <script src="{{ asset('assets/bsscript.js') }}"></script>
+    
+    @if(session()->has('alertError'))
+    <script>
+        alert("{{ session()->get('alertError') }}");
+    </script>
+    @endif
+    @if(session()->has('alertSuccess'))
+    <script>
+        alert("{{ session()->get('alertSuccess') }}");
+    </script>
+    @endif
+
 </html>

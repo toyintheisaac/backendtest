@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-12">
 
-                <form action="" method="post" class="form">
+                <form action="{{ route('transaction.store') }}" method="post" class="form">
                     @csrf
                     <div class="form-group">
                         <label for="type">Type:</label>

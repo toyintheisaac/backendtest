@@ -13,44 +13,32 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </li>
+                <li class="nav-item">
+                    <x-nav-link :href="route('users.logs')" :active="request()->routeIs('users.logs')">
+                        {{ __('Logs') }}
+                    </x-nav-link>
+                </li>
             </ul>
-
+@php
+        $notifications = auth()->user()->unreadNotifications->sortByDesc('created_at');
+@endphp
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="fa fa-bell" aria-hidden="true"></i>
-                        <span class="notification-badge">0</span>
+                        <span class="notification-badge">{{ count($notifications) }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li style="width:300px;height:350px; overflow-y:scroll" class="p-0">
-                            <div class="card">
+                            @foreach($notifications as $notification)
+                            <div class="card card-sm mb-1">
                                 <div class="card-body">
-                                  <h5 class="card-title">Title</h5>
-                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                  <a href="#" class="btn btn-danger badge">Read</a>
+                                  <h6 class="card-title">{{ ucfirst($notification->data['type']) }}</h6>
+                                  <p class="card-text">{{ $notification->data['message'] }}</p>
+                                  <a href="{{ route('notification.read',$notification->id) }}" class="btn btn-danger badge">Mark as Read</a>
                                 </div>
                               </div>
-                            <div class="card">
-                                <div class="card-body">
-                                  <h5 class="card-title">Title</h5>
-                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                  <a href="#" class="btn btn-danger badge">Read</a>
-                                </div>
-                              </div>
-                            <div class="card">
-                                <div class="card-body">
-                                  <h5 class="card-title">Title</h5>
-                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                  <a href="#" class="btn btn-danger badge">Read</a>
-                                </div>
-                              </div>
-                            <div class="card">
-                                <div class="card-body">
-                                  <h5 class="card-title">Title</h5>
-                                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                  <a href="#" class="btn btn-danger badge">Read</a>
-                                </div>
-                              </div>
+                            @endforeach
                         </li>
                     </ul>
                 </li>

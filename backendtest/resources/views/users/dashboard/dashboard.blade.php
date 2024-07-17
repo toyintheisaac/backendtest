@@ -9,20 +9,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg py-3">
                 <div class="row">
+                    @can('system_pool view')
                     <div class="col-6 col-md-4">
                         <div class="card">
                             <div class="card-body">
                               <h5 class="card-title">System Pooling Balance</h5>
-                              <h4>30,000.00</h4>
-                              {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+                              <h4>N{{ number_format($pool_balance,2) }}</h4>
                             </div>
                           </div>
                     </div>
+                    @endcan
                     <div class="col-6 col-md-4">
                         <div class="card">
                             <div class="card-body">
                               <h5 class="card-title">Wallet Balance</h5>
-                              <h4>30,000.00</h4>
+                              <h4>N{{ number_format(auth()->user()->wallet->balance,2) }}</h4>
                             </div>
                           </div>
                     </div>
@@ -30,10 +31,12 @@
                         <div class="card">
                             <div class="card-body">
                               <h5 class="card-title">Transactions</h5>
-                              <h6>(1) Pending Tranaction</h6>
-
-                              <h6>(1) Required Modification</h6> {{-- if user is maker --}}
-
+                              @can('approve transactions')
+                                <h6>({{ $transactions->where('status','pending')->count() }}) Pending Tranaction</h6>
+                              @endcan
+                                @can('create transactions')
+                                    <h6>({{ $transactions->where('status','rejected')->count() }}) Required Modification</h6>
+                                @endcan
                             </div>
                           </div>
                     </div>
@@ -50,10 +53,12 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-6">
-                    <h4>(13) Transactions</h4>
+                    <h4>({{ count($transactions) }}) Transactions</h4>
                 </div>
                 <div class="col-6 text-end">
-                    <a href="{{ route('transactions.create') }}" class="btn btn-info">Create Transaction</a>
+                    @can('create transactions')
+                        <a href="{{ route('transaction.create') }}" class="btn btn-info">Create Transaction</a>
+                    @endcan
                 </div>
             </div>
 
@@ -67,41 +72,44 @@
                 <th>Amount</th>
                 <th>Descrip.</th>
                 <th>Updated By</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
+          @php($sn=1)
+            @foreach ($transactions as $transaction)
             <tr>
-                <td>1</td>
-                <td>name</td>
-                <td>type</td>
-                <td>amount</td>
-                <td>description</td>
-                <td>status</td>
-                <td>By</td>
+                <td>{{ $sn++ }}</td>
+                <td>{{ $transaction->user->name }}</td>
+                <td>{{ $transaction->type }}</td>
+                <td>N{{ $transaction->amount }}</td>
+                <td>{{ $transaction->description }}</td>
+                <td>{{ $transaction->approved_by?->name }}</td>
                 <td>
-                            <form action="" method="post">
+                    @can('approve transactions')
+                        @if($transaction->status=='pending')
+                            <form action="{{ route('transaction.approve',$transaction->id) }}" method="post">
                                 @csrf
-                                <button type="submit"  class="btn btn-success">Approve</button>
+                                <button type="submit"  class="btn btn-success badge" onclick="return confirm('are you sure you want to Approve?')">Approve</button>
                             </form>
+                            <form action="{{ route('transaction.reject',$transaction->id) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-danger badge" onclick="return confirm('are you sure you want to Reject?')">Reject</button>
+                            </form>
+                        @else
+                            <button class="btn btn-info badge">{{ $transaction->status }}</button>
+                        @endif
+                    @endcan
+                    @cannot('approve transactions')
+                        @if($transaction->status=='rejected')
+                            <a class="btn btn-danger badge" href="{{ route('transaction.edit',$transaction->id) }}">Require Modification</button>
+                        @else
+                            <button class="btn btn-info badge">{{ $transaction->status }}</button>
+                        @endif 
+                    @endcannot
                 </td>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>name</td>
-                <td>type</td>
-                <td>amount</td>
-                <td>description</td>
-                <td>status</td>
-                <td>by</td>
-                <td>
-                    <form action="" method="post">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Reject</button>
-                    </form>
-                </td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
         </div>

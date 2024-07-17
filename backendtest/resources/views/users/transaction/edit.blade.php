@@ -19,30 +19,31 @@
         <div class="row">
             <div class="col-12">
 
-                <form action="" method="post" class="form">
+                <form action="{{ route('transaction.update', $transaction->id) }}" method="post" class="form">
                     @csrf
+                    @method('put')
                     <div class="form-group">
                         <label for="type">Type:</label>
                         <select name="type" id="type" class="form-control">
-                            <option value="credit">Credit</option>
-                            <option value="debit">Debit</option>
+                            <option value="credit" {{ ($transaction->type=='credit')?'selected':''; }}>Credit</option>
+                            <option value="debit" {{ ($transaction->type=='debit')?'selected':''; }}>Debit</option>
                         </select>
                     </div>
 
 
                     <div class="form-group">
                         <label for="amount">Amount:</label>
-                        <input type="number" name="amount" placeholder="Amount" id="amount" step="0.1" required class="form-control">
+                        <input type="number" name="amount" value="{{ $transaction->amount }}" id="amount" step="0.1" required class="form-control">
                     </div>
 
 
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea name="description"  placeholder="Description" id="description" class="form-control"></textarea>
+                        <textarea name="description" id="description" class="form-control">{{ $transaction->description }}</textarea>
                     </div>
 
 
-                    <button type="submit" class="btn btn-sm btn-success d-block form-control mt-2">Create</button>
+                    <button type="submit" class="btn btn-sm btn-success d-block form-control mt-2">Update</button>
                 </form>
 
             </div>

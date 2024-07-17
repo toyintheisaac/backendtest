@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('amount', 15, 2);
             $table->enum('status', TransactionStatusEnums::values())->default(TransactionStatusEnums::PENDING->value);
             $table->string('rejection_reason')->nullable();
-            $table->foreignId('approved_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('approved_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

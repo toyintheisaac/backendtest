@@ -26,5 +26,6 @@ class RoleSeeder extends Seeder
 
         $checker = Role::where('name', 'Checker')->first();
         $checker->givePermissionTo('approve transactions');
+        $checker->givePermissionTo('system_pool view');
     }
 }
