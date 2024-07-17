@@ -25,15 +25,27 @@ This project is a complete solution for a technical test on the Maker-Checker sy
 #### Project Setup
 
 - **Pull from the repo:** 
-    - git pull   
+    - git pull   or git clone https://github.com/Dantown-Internship/backendtest.git
 - **Checkout to my Branch:** 
     - git checkout isaac-toyin  
 - **Navigate to Project Directory:**
     - cd backendtest 
 - **Copy Environment File:** 
     - cp .env.example .env     
-- **Configure Mail Server:**      
+- **Configure Enviromental variable:**      
     - Update the .env file with your mail server settings.
+        DB_DATABASE=backendtest_db
+        DB_USERNAME=your_username
+        DB_PASSWORD=your_password
+        MAIL_MAILER=smtp
+        MAIL_HOST=your_mail_host
+        MAIL_PORT=your_mail_port
+        MAIL_USERNAME=your_mail_username
+        MAIL_PASSWORD=your_mail_password
+        MAIL_ENCRYPTION=your_mail_encryption
+- **Install Dependencies:**      
+    - composer install
+    - npm install
 - **Run Migrations and Seed Database:**      
     - php artisan migrate --seed
  
@@ -41,6 +53,7 @@ This project is a complete solution for a technical test on the Maker-Checker sy
 ### Running Tests
 - **Update Testing Environment File**      
     - Edit the .env.testing file with the testing database name (test_backendtest_db).
+    - DB_DATABASE=test_backendtest_db
 - **Run Tests:**      
     - php artisan test --env=testing
  
